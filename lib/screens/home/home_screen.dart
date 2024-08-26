@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:interactions_app/extensions/text_ext.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
+import 'package:interactions_app/screens/home/subviews/category_tab_view.dart';
 import 'package:interactions_app/screens/home/subviews/days_tab_view.dart';
 import 'package:interactions_app/screens/home/subviews/task_list.dart';
 import '../../managers/navigation_mgr.dart';
-import 'subviews/category_grid.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -17,7 +17,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const _HeaderView(),
+          HeaderContainer(
+            title: "Let's Plan",
+            subtitle: 'My Schedule',
+            bottom: CategoryTabView(),
+          ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -49,47 +53,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _HeaderView extends StatelessWidget {
-  const _HeaderView();
-
-  @override
-  Widget build(BuildContext context) {
-    return HeaderContainer(
-      children: [
-        const Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Let's Plan",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  'My Schedule',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        CategoriesGrid(),
-      ],
     );
   }
 }

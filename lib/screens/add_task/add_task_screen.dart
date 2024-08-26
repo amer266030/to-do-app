@@ -19,31 +19,41 @@ class AddTaskScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _HeaderView(),
-          Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
-                child: Row(
-                  children: [
-                    const Text('Add Category').styled(),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () =>
-                          navMgr.navigate(context, Destination.addCategory),
-                      icon: const Icon(
-                        CupertinoIcons.plus_circle_fill,
-                        color: Colors.blue,
-                        size: 32,
-                      ),
-                    )
-                  ],
-                ),
+          HeaderContainer(
+            title: 'Add Task',
+            subtitle: 'Date',
+            bottom: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: DatePicker(
+                DateTime.now(),
+                height: 95,
+                daysCount: 30,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: Colors.black54,
+                selectedTextColor: Colors.white,
+                onDateChange: (date) => (),
               ),
-              const Divider(),
-            ],
+            ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
+            child: Row(
+              children: [
+                const Text('Add Category').styled(),
+                const Spacer(),
+                IconButton(
+                  onPressed: () =>
+                      navMgr.navigate(context, Destination.addCategory),
+                  icon: const Icon(
+                    CupertinoIcons.plus_circle_fill,
+                    color: Colors.blue,
+                    size: 32,
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Divider(),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -57,13 +67,7 @@ class AddTaskScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Selected Category',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          const Text('Selected Category').styled(),
                           DropdownButton(
                             items: dataMgr.categories
                                 .map(
@@ -84,36 +88,24 @@ class AddTaskScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           children: [
-                            Text(
-                              'Task Name:',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(child: CustomTextField(hint: 'Name'))
+                            const Text('Task Name:').styled(size: 12),
+                            const SizedBox(width: 8),
+                            const Expanded(child: CustomTextField(hint: 'Name'))
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Description:',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(
+                            const Text('Description:').styled(size: 12),
+                            const SizedBox(width: 8),
+                            const Expanded(
                               child: CustomTextField(
                                   hint: 'Description', maxLines: 5),
                             )
@@ -128,78 +120,20 @@ class AddTaskScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(24.0),
-            child: CustomBtn(title: 'Add Task', action: () => ()),
+            child: Row(
+              children: [
+                CustomBtn(
+                  title: 'Cancel',
+                  action: () => navMgr.navigateBack(context),
+                  color: Colors.red,
+                ),
+                const SizedBox(width: 16),
+                CustomBtn(title: 'Add Task', action: () => ())
+              ],
+            ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _HeaderView extends StatelessWidget {
-  _HeaderView();
-
-  final navMgr = GetIt.I.get<NavMgr>();
-
-  @override
-  Widget build(BuildContext context) {
-    return HeaderContainer(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () => navMgr.navigateBack(context),
-                    icon: const Icon(CupertinoIcons.chevron_left,
-                        color: Colors.white),
-                  ),
-                  const Text(
-                    'Add Task',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Icon(CupertinoIcons.circle_fill,
-                      color: Colors.transparent)
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Date:',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    DatePicker(
-                      DateTime.now(),
-                      height: 95,
-                      daysCount: 30,
-                      initialSelectedDate: DateTime.now(),
-                      selectionColor: Colors.black54,
-                      selectedTextColor: Colors.white,
-                      onDateChange: (date) => (),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

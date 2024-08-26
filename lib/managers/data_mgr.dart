@@ -11,6 +11,7 @@ class DataMgr {
   bool? selectedStatus;
   int? selectedId;
   TimePeriod? selectedPeriod;
+  TaskCategory? selectedCategory;
 
   DataMgr() {
     _fetchData();

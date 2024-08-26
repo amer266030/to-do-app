@@ -13,7 +13,7 @@ class NavMgr {
   Widget getDestination(Destination dest) {
     switch (dest) {
       case Destination.addCategory:
-        return const AddCategoryScreen();
+        return AddCategoryScreen();
       case Destination.addTask:
         return AddTaskScreen();
     }

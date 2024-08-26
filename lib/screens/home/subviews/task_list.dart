@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:interactions_app/extensions/text_ext.dart';
 import '../../../managers/data_mgr.dart';
 import '../../../model/task.dart';
 import '../../../model/task_category.dart';
@@ -109,16 +110,12 @@ class _TaskItemView extends StatelessWidget {
                   children: [
                     Icon(category.iconData, size: 14, color: category.color),
                     const SizedBox(width: 8),
-                    Text(task.title,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    Text(task.title).styled(size: 10, weight: FontWeight.w600),
                     const Spacer(),
                     Row(
                       children: [
-                        Text(TimeOfDay.fromDateTime(task.timeStamp).toString(),
-                            style: const TextStyle(fontSize: 10)),
+                        Text(TimeOfDay.fromDateTime(task.timeStamp).toString())
+                            .styled(size: 10),
                         const Icon(CupertinoIcons.chevron_right),
                       ],
                     )

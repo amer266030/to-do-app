@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interactions_app/extensions/text_ext.dart';
 import '../../../model/enum/time_period.dart';
 
 class DaysTabView extends StatelessWidget {
@@ -28,22 +29,17 @@ class DaysTabView extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.cyan.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(16)),
-                      child: const Padding(
-                        padding: EdgeInsets.all(16.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Status',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            const Text('Status')
+                                .styled(size: 12, weight: FontWeight.w500),
                             Row(
                               children: [
-                                Expanded(
+                                const Expanded(
                                   child: LinearProgressIndicator(
                                     backgroundColor: Colors.greenAccent,
                                     color: Colors.green,
@@ -52,11 +48,8 @@ class DaysTabView extends StatelessWidget {
                                     semanticsLabel: 'Linear progress indicator',
                                   ),
                                 ),
-                                SizedBox(width: 8),
-                                Text(
-                                  '50% Completed',
-                                  style: TextStyle(fontSize: 10),
-                                ),
+                                const SizedBox(width: 8),
+                                const Text('50% Completed').styled(size: 10),
                               ],
                             )
                           ],
