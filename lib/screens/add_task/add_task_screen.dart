@@ -3,24 +3,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
-import '../../model/app_model.dart';
-import '../../model/task_category.dart';
+import '../../managers/data_mgr.dart';
+import '../../managers/navigation_mgr.dart';
 
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({super.key});
-  final x = GetIt.I.get<AppModel>();
-
-  void _navigateToAddCategory(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => AddTaskScreen()));
-  }
+  final dataMgr = GetIt.I.get<DataMgr>();
+  final navMgr = GetIt.I.get<NavMgr>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          const _HeaderView(),
+          _HeaderView(),
           Expanded(
             child: ListView(
               children: [
@@ -40,7 +36,8 @@ class AddTaskScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () => _navigateToAddCategory(context),
+                            onPressed: () =>
+                                navMgr.navigateToAddCategory(context),
                             icon: const Icon(
                               CupertinoIcons.plus_circle_fill,
                               color: Colors.blue,
@@ -62,7 +59,7 @@ class AddTaskScreen extends StatelessWidget {
                             ),
                           ),
                           DropdownButton(
-                            items: x.categories
+                            items: dataMgr.categories
                                 .map(
                                   (cat) => DropdownMenuItem(
                                     value: cat.title,
@@ -177,9 +174,9 @@ class AddTaskScreen extends StatelessWidget {
 }
 
 class _HeaderView extends StatelessWidget {
-  const _HeaderView();
+  _HeaderView();
 
-  void _navigateBack(BuildContext context) => Navigator.pop(context);
+  final navMgr = GetIt.I.get<NavMgr>();
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +193,7 @@ class _HeaderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () => _navigateBack(context),
+                      onPressed: () => navMgr.navigateBack(context),
                       icon: const Icon(CupertinoIcons.chevron_left,
                           color: Colors.white),
                     ),

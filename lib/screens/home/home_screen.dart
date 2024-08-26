@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
 import 'package:interactions_app/screens/home/subviews/days_tab_view.dart';
 import 'package:interactions_app/screens/home/subviews/task_list.dart';
-import '../add_task/add_task_screen.dart';
+import '../../managers/navigation_mgr.dart';
 import 'subviews/category_grid.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  void _navigateToAddTask(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => AddTaskScreen()));
-  }
+  HomeScreen({super.key});
+  final navMgr = GetIt.I.get<NavMgr>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () => _navigateToAddTask(context),
+                  onPressed: () => navMgr.navigateToAddTask(context),
                   icon: const Icon(
                     CupertinoIcons.plus_circle_fill,
                     color: Colors.blue,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../../model/app_model.dart';
+import '../../../managers/data_mgr.dart';
 
 class CategoriesGrid extends StatelessWidget {
   CategoriesGrid({super.key});
-  final x = GetIt.I.get<AppModel>();
+  final dataMgr = GetIt.I.get<DataMgr>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CategoriesGrid extends StatelessWidget {
           ),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: x.categories
+          children: dataMgr.categories
               .map(
                 (cat) => _GridCard(
                   icon: Icon(cat.iconData, color: cat.color),

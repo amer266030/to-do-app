@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../../model/app_model.dart';
+import '../../../managers/data_mgr.dart';
 import '../../../model/task.dart';
 import '../../../model/task_category.dart';
 
 class TaskList extends StatelessWidget {
   TaskList({super.key});
-  final x = GetIt.I.get<AppModel>();
+  final dataMgr = GetIt.I.get<DataMgr>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TaskList extends StatelessWidget {
         children: [
           _TaskSectionView(
             sectionTitle: 'TO-DO',
-            children: x.tasks
+            children: dataMgr.allTasks
                 .where((task) => task.isCompleted == false)
                 .toList()
                 .map((task) => _TaskItemView(task: task))
@@ -27,7 +27,7 @@ class TaskList extends StatelessWidget {
           const SizedBox(height: 16),
           _TaskSectionView(
             sectionTitle: 'COMPLETED',
-            children: x.tasks
+            children: dataMgr.allTasks
                 .where((task) => task.isCompleted == true)
                 .toList()
                 .map((task) => _TaskItemView(task: task))
@@ -68,12 +68,13 @@ class _TaskSectionView extends StatelessWidget {
 }
 
 class _TaskItemView extends StatelessWidget {
-  final x = GetIt.I.get<AppModel>();
+  final dataMgr = GetIt.I.get<DataMgr>();
 
   _TaskItemView({
     required this.task,
   }) {
-    category = x.categories.firstWhere((cat) => cat.id == task.categoryId);
+    category =
+        dataMgr.categories.firstWhere((cat) => cat.id == task.categoryId);
   }
 
   final Task task;
@@ -116,7 +117,8 @@ class _TaskItemView extends StatelessWidget {
                     const Spacer(),
                     Row(
                       children: [
-                        Text(task.time, style: const TextStyle(fontSize: 10)),
+                        Text(TimeOfDay.fromDateTime(task.timeStamp).toString(),
+                            style: const TextStyle(fontSize: 10)),
                         const Icon(CupertinoIcons.chevron_right),
                       ],
                     )
