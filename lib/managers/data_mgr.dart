@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interactions_app/model/task_category.dart';
+import '../model/enum/time_period.dart';
 import '../model/task.dart';
 
 class DataMgr {
@@ -9,7 +10,7 @@ class DataMgr {
 
   bool? selectedStatus;
   int? selectedId;
-  DateTime? selectedDate;
+  TimePeriod? selectedPeriod;
 
   DataMgr() {
     _fetchData();
@@ -87,9 +88,10 @@ class DataMgr {
   List<Task> _filterTasks() {
     List<Task> temp = allTasks;
 
-    if (selectedDate != null) {
+    if (selectedPeriod != null) {
       temp = temp
-          .where((task) => task.timeStamp.day == selectedDate?.day)
+          .where((task) => task.timeStamp.isBefore(
+              DateTime.now().add(Duration(days: selectedPeriod!.duration()))))
           .toList();
     }
 

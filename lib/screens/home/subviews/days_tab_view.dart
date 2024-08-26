@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../model/enum/time_period.dart';
 
 class DaysTabView extends StatelessWidget {
   const DaysTabView({super.key});
@@ -11,12 +12,10 @@ class DaysTabView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            const TabBar(
-              tabs: [
-                Text('Today'),
-                Text('Week'),
-                Text('Month'),
-              ],
+            TabBar(
+              tabs: TimePeriod.values
+                  .map((timePeriod) => Text(timePeriod.text()))
+                  .toList(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),

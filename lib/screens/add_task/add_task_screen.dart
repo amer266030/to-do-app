@@ -2,9 +2,11 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:interactions_app/extensions/text_ext.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
 import '../../managers/data_mgr.dart';
 import '../../managers/navigation_mgr.dart';
+import '../../reusable_components/custom_btn.dart';
 
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({super.key});
@@ -17,36 +19,38 @@ class AddTaskScreen extends StatelessWidget {
       body: Column(
         children: [
           _HeaderView(),
+          Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
+                child: Row(
+                  children: [
+                    const Text('Add Category').styled(),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () => navMgr.navigateToAddCategory(context),
+                      icon: const Icon(
+                        CupertinoIcons.plus_circle_fill,
+                        color: Colors.blue,
+                        size: 32,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const Divider(),
+            ],
+          ),
           Expanded(
             child: ListView(
+              padding: EdgeInsets.zero,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
                       // Add Category
-                      Row(
-                        children: [
-                          const Text(
-                            'Add Category',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () =>
-                                navMgr.navigateToAddCategory(context),
-                            icon: const Icon(
-                              CupertinoIcons.plus_circle_fill,
-                              color: Colors.blue,
-                              size: 24,
-                            ),
-                          )
-                        ],
-                      ),
-                      const Divider(),
                       // Category Selection
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,6 +118,7 @@ class AddTaskScreen extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Description:',
@@ -125,47 +130,40 @@ class AddTaskScreen extends StatelessWidget {
                             SizedBox(width: 8),
                             Expanded(
                               child: TextField(
+                                minLines:
+                                    5, // The minimum number of lines to display
+                                maxLines:
+                                    null, // Allows the TextField to expand as more text is entered
+                                textAlignVertical: TextAlignVertical.top,
                                 style: TextStyle(
-                                    fontSize: 12.0,
-                                    height: 2.0,
-                                    color: Colors.black),
+                                  fontSize: 12.0,
+                                  height: 1.5,
+                                  color: Colors.black,
+                                ),
                                 decoration: InputDecoration(
-                                  label: Text('This is my Description',
-                                      style: TextStyle(fontSize: 12)),
+                                  label: Text(
+                                    'This is my Description',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                   labelStyle: TextStyle(color: Colors.black),
                                   border: OutlineInputBorder(),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 80),
+                                  contentPadding: EdgeInsets.all(
+                                      10.0), // Padding inside the TextField
                                 ),
                               ),
                             )
                           ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                foregroundColor: Colors.white,
-                                textStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () => (),
-                              child: const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Text('Add Task'),
-                              ),
-                            ),
-                          )
-                        ],
-                      )
                     ],
                   ),
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: CustomBtn(title: 'Add Task', action: () => ()),
           ),
         ],
       ),
@@ -183,33 +181,33 @@ class _HeaderView extends StatelessWidget {
     return HeaderContainer(
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () => navMgr.navigateBack(context),
-                      icon: const Icon(CupertinoIcons.chevron_left,
-                          color: Colors.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => navMgr.navigateBack(context),
+                    icon: const Icon(CupertinoIcons.chevron_left,
+                        color: Colors.white),
+                  ),
+                  const Text(
+                    'Add Task',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    const Text(
-                      'Add Task',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Icon(CupertinoIcons.circle_fill,
-                        color: Colors.transparent)
-                  ],
-                ),
-                Column(
+                  ),
+                  const Icon(CupertinoIcons.circle_fill,
+                      color: Colors.transparent)
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
@@ -231,9 +229,9 @@ class _HeaderView extends StatelessWidget {
                       onDateChange: (date) => (),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ],

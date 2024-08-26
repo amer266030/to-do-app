@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:interactions_app/extensions/text_ext.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
 import 'package:interactions_app/screens/home/subviews/days_tab_view.dart';
 import 'package:interactions_app/screens/home/subviews/task_list.dart';
@@ -17,31 +18,28 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           const _HeaderView(),
+          const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
-                const Text(
-                  'Tasks',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                const Text('Add Task').styled(weight: FontWeight.bold),
                 const Spacer(),
                 IconButton(
                   onPressed: () => navMgr.navigateToAddTask(context),
                   icon: const Icon(
                     CupertinoIcons.plus_circle_fill,
                     color: Colors.blue,
-                    size: 24,
+                    size: 32,
                   ),
                 )
               ],
             ),
           ),
+          const Divider(),
           Expanded(
             child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
                 const DaysTabView(),
                 TaskList(),

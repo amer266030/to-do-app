@@ -8,15 +8,15 @@ class HeaderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1.5,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(32),
         ),
         child: SafeArea(
-          child: AspectRatio(
-            aspectRatio: 1.8,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: children,
