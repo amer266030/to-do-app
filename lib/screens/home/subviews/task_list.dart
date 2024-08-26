@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import '../../../model/app_model.dart';
 import '../../../model/task.dart';
+import '../../../model/task_category.dart';
 
 class TaskList extends StatelessWidget {
-  const TaskList({super.key});
+  TaskList({super.key});
+  final x = GetIt.I.get<AppModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -12,21 +16,21 @@ class TaskList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TaskSectionView(
+          _TaskSectionView(
             sectionTitle: 'TO-DO',
-            children: Task.tasks
+            children: x.tasks
                 .where((task) => task.isCompleted == false)
                 .toList()
-                .map((task) => TaskItemView(task: task))
+                .map((task) => _TaskItemView(task: task))
                 .toList(),
           ),
           const SizedBox(height: 16),
-          TaskSectionView(
+          _TaskSectionView(
             sectionTitle: 'COMPLETED',
-            children: Task.tasks
+            children: x.tasks
                 .where((task) => task.isCompleted == true)
                 .toList()
-                .map((task) => TaskItemView(task: task))
+                .map((task) => _TaskItemView(task: task))
                 .toList(),
           ),
         ],
@@ -35,12 +39,12 @@ class TaskList extends StatelessWidget {
   }
 }
 
-class TaskSectionView extends StatelessWidget {
-  const TaskSectionView(
+class _TaskSectionView extends StatelessWidget {
+  const _TaskSectionView(
       {super.key, required this.sectionTitle, required this.children});
 
   final String sectionTitle;
-  final List<TaskItemView> children;
+  final List<_TaskItemView> children;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +67,13 @@ class TaskSectionView extends StatelessWidget {
   }
 }
 
-class TaskItemView extends StatelessWidget {
-  TaskItemView({
-    super.key,
+class _TaskItemView extends StatelessWidget {
+  final x = GetIt.I.get<AppModel>();
+
+  _TaskItemView({
     required this.task,
   }) {
-    category =
-        TaskCategory.categories.firstWhere((cat) => cat.id == task.categoryId);
+    category = x.categories.firstWhere((cat) => cat.id == task.categoryId);
   }
 
   final Task task;

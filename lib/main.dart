@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:interactions_app/services/di_container.dart';
 import 'screens/home/home_screen.dart';
 
 void main() {
+  DIContainer.setup();
   runApp(const MyApp());
 }
 
