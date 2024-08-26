@@ -26,7 +26,8 @@ class HomeScreen extends StatelessWidget {
                 const Text('Add Task').styled(weight: FontWeight.bold),
                 const Spacer(),
                 IconButton(
-                  onPressed: () => navMgr.navigateToAddTask(context),
+                  onPressed: () =>
+                      navMgr.navigate(context, Destination.addTask),
                   icon: const Icon(
                     CupertinoIcons.plus_circle_fill,
                     color: Colors.blue,

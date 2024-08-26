@@ -7,6 +7,7 @@ import 'package:interactions_app/reusable_components/header_container.dart';
 import '../../managers/data_mgr.dart';
 import '../../managers/navigation_mgr.dart';
 import '../../reusable_components/custom_btn.dart';
+import '../../reusable_components/custom_text_field.dart';
 
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({super.key});
@@ -29,7 +30,8 @@ class AddTaskScreen extends StatelessWidget {
                     const Text('Add Category').styled(),
                     const Spacer(),
                     IconButton(
-                      onPressed: () => navMgr.navigateToAddCategory(context),
+                      onPressed: () =>
+                          navMgr.navigate(context, Destination.addCategory),
                       icon: const Icon(
                         CupertinoIcons.plus_circle_fill,
                         color: Colors.blue,
@@ -82,7 +84,6 @@ class AddTaskScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      // Task Name
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
@@ -95,26 +96,10 @@ class AddTaskScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(width: 8),
-                            Expanded(
-                              child: TextField(
-                                style: TextStyle(
-                                    fontSize: 12.0,
-                                    height: 2.0,
-                                    color: Colors.black),
-                                decoration: InputDecoration(
-                                  label: Text(
-                                    'Task Name',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            )
+                            Expanded(child: CustomTextField(hint: 'Name'))
                           ],
                         ),
                       ),
-                      // Task Description
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
@@ -129,28 +114,8 @@ class AddTaskScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Expanded(
-                              child: TextField(
-                                minLines:
-                                    5, // The minimum number of lines to display
-                                maxLines:
-                                    null, // Allows the TextField to expand as more text is entered
-                                textAlignVertical: TextAlignVertical.top,
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  height: 1.5,
-                                  color: Colors.black,
-                                ),
-                                decoration: InputDecoration(
-                                  label: Text(
-                                    'This is my Description',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  border: OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.all(
-                                      10.0), // Padding inside the TextField
-                                ),
-                              ),
+                              child: CustomTextField(
+                                  hint: 'Description', maxLines: 5),
                             )
                           ],
                         ),
