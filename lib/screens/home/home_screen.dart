@@ -8,9 +8,21 @@ import 'package:interactions_app/screens/home/subviews/days_tab_view.dart';
 import 'package:interactions_app/screens/home/subviews/task_list.dart';
 import '../../managers/navigation_mgr.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final navMgr = GetIt.I.get<NavMgr>();
+
+  void _navigate(BuildContext context) {
+    navMgr.navigate(context, Destination.addTask).then((_) {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +42,7 @@ class HomeScreen extends StatelessWidget {
                 const Text('Add Task').styled(weight: FontWeight.bold),
                 const Spacer(),
                 IconButton(
-                  onPressed: () =>
-                      navMgr.navigate(context, Destination.addTask),
+                  onPressed: () => _navigate(context),
                   icon: const Icon(
                     CupertinoIcons.plus_circle_fill,
                     color: Colors.blue,

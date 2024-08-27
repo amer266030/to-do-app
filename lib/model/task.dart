@@ -18,12 +18,12 @@ class Task {
         title = json['title'] as String,
         isCompleted = json['isCompleted'] as bool,
         timeStamp = json['timeStamp'] as String,
-        categoryId = json[''] as int;
+        categoryId = json['categoryId'] as int;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
-        'bool': isCompleted,
+        'isCompleted': isCompleted,
         'timeStamp': timeStamp,
         'categoryId': categoryId
       };

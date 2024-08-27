@@ -21,7 +21,7 @@ class CategoryTabView extends StatelessWidget {
             .map(
               (cat) => InkWell(
                 child: _TabItemCard(
-                  icon: Icon(cat.icon(), color: cat.color()),
+                  icon: Icon(cat.icon, color: cat.color()),
                   title: cat.title,
                   numItems: 5,
                 ),

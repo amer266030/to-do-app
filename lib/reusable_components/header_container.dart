@@ -26,7 +26,7 @@ class HeaderContainer extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

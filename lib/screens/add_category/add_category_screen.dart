@@ -127,8 +127,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               children: [
                 CustomBtn(
                   title: 'Cancel',
-                  action: () =>
-                      navMgr.navigateBack(context, 'No Category Added'),
+                  action: () => navMgr.navigateBack(context, null),
                   color: Colors.red,
                 ),
                 const SizedBox(width: 16),

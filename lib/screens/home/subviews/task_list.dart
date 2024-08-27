@@ -42,7 +42,7 @@ class TaskList extends StatelessWidget {
 
 class _TaskSectionView extends StatelessWidget {
   const _TaskSectionView(
-      {super.key, required this.sectionTitle, required this.children});
+      {required this.sectionTitle, required this.children});
 
   final String sectionTitle;
   final List<_TaskItemView> children;
@@ -108,7 +108,7 @@ class _TaskItemView extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   children: [
-                    Icon(category.icon(), size: 14, color: category.color()),
+                    Icon(category.icon, size: 14, color: category.color()),
                     const SizedBox(width: 8),
                     Text(task.title).styled(size: 10, weight: FontWeight.w600),
                     const Spacer(),

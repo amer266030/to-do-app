@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 enum DropDownIcons {
   person,
   circle,
   square,
+  home,
 }
 
 extension IconValue on DropDownIcons {
@@ -16,6 +16,10 @@ extension IconValue on DropDownIcons {
         return CupertinoIcons.circle_fill;
       case DropDownIcons.square:
         return CupertinoIcons.square;
+      case DropDownIcons.home:
+        return CupertinoIcons.home;
+      default:
+        return CupertinoIcons.exclamationmark_circle_fill;
     }
   }
 }

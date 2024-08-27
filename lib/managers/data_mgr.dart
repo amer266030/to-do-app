@@ -45,7 +45,10 @@ class DataMgr {
 
   void _fetchCategories() {
     List<Map<String, dynamic>> storageCategories = [];
-    if ((box.read('categories')) != null) {
+    if ((box.read('categories')) == null) {
+      addNewCategory(TaskCategory(
+          id: 0, title: 'Home', iconName: 'home', colorName: 'red'));
+    } else {
       storageCategories =
           List.from(box.read('categories')).cast<Map<String, dynamic>>();
       for (var cat in storageCategories) {

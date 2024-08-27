@@ -3,17 +3,19 @@ import 'package:interactions_app/screens/add_category/add_category_screen.dart';
 import '../screens/add_task/add_task_screen.dart';
 
 class NavMgr {
-  navigate(BuildContext context, Destination dest) {
-    Navigator.of(context)
+  Future<void> navigate(BuildContext context, Destination dest) {
+    return Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => getDestination(dest)))
         .then((value) {
-      ScaffoldMessenger.of(context)
-        ..removeCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(value.toString())));
+      if (value != null) {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(value.toString())));
+      }
     });
   }
 
-  void navigateBack(BuildContext context, String str) =>
+  void navigateBack(BuildContext context, String? str) =>
       Navigator.pop(context, str);
 
   Widget getDestination(Destination dest) {

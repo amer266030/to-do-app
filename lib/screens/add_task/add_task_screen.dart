@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,21 +28,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   final descriptionController = TextEditingController();
 
-  TaskCategory? selectedCategory;
+  TaskCategory selectedCategory = DataMgr().categories.first;
 
   String selectedDate = DateTime.now().toIso8601String();
 
-  // void _navigate(BuildContext context) {
-  //   navMgr.navigate(context, Destination.addCategory).then((_) {
-  //     setState(() {});
-  //   });
-  // }
+  void _setSelectedCategory(String title) {
+    setState(() {
+      selectedCategory =
+          dataMgr.categories.where((cat) => cat.title == title).toList().first;
+    });
+  }
 
-  void addTask(Task? task) {
-    if (task != null) {
-      dataMgr.addNewTask(task);
-      navMgr.navigateBack(context, task.title);
-    }
+  void _navigate(BuildContext context) {
+    navMgr.navigate(context, Destination.addCategory).then((_) {
+      setState(() {});
+    });
+  }
+
+  void addTask(Task task) {
+    dataMgr.addNewTask(task);
+    navMgr.navigateBack(context, task.title);
   }
 
   void setSelectedDate(DateTime date) => selectedDate = date.toIso8601String();
@@ -76,8 +80,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 const Text('Add Category').styled(),
                 const Spacer(),
                 IconButton(
-                  onPressed: () =>
-                      navMgr.navigate(context, Destination.addCategory),
+                  onPressed: () => _navigate(context),
                   icon: const Icon(
                     CupertinoIcons.plus_circle_fill,
                     color: Colors.blue,
@@ -103,13 +106,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         children: [
                           const Text('Selected Category').styled(),
                           DropdownButton(
+                            value: selectedCategory.title,
                             items: dataMgr.categories
                                 .map(
                                   (cat) => DropdownMenuItem(
                                     value: cat.title,
                                     child: Row(
                                       children: [
-                                        Icon(cat.icon()),
+                                        Icon(cat.icon),
                                         const SizedBox(width: 8),
                                         Text(cat.title)
                                       ],
@@ -118,7 +122,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                 .toList(),
                             itemHeight: 60,
-                            onChanged: (value) => (),
+                            onChanged: (value) => _setSelectedCategory(value!),
                           )
                         ],
                       ),
@@ -162,7 +166,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               children: [
                 CustomBtn(
                   title: 'Cancel',
-                  action: () => navMgr.navigateBack(context, 'No Task Added'),
+                  action: () => navMgr.navigateBack(context, null),
                   color: Colors.red,
                 ),
                 const SizedBox(width: 16),
@@ -173,7 +177,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         title: nameController.text,
                         isCompleted: false,
                         timeStamp: selectedDate,
-                        categoryId: selectedCategory?.id ?? 1)))
+                        categoryId: selectedCategory.id)))
               ],
             ),
           ),

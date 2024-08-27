@@ -1,11 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'enum/drop_down_icons.dart';
 
 class TaskCategory {
   int id;
   String title;
   String iconName;
   String colorName;
+
+  IconData get icon =>
+      DropDownIcons.values.where((i) => i.name == iconName).first.icon();
 
   TaskCategory(
       {required this.id,
@@ -38,21 +42,6 @@ extension CategoryColor on TaskCategory {
         return Colors.green;
       default:
         return Colors.purple;
-    }
-  }
-}
-
-extension CategoryIcon on TaskCategory {
-  IconData icon() {
-    switch (iconName) {
-      case 'house':
-        return CupertinoIcons.home;
-      case 'circle':
-        return CupertinoIcons.circle_fill;
-      case 'square':
-        return CupertinoIcons.square_fill;
-      default:
-        return CupertinoIcons.exclamationmark_circle_fill;
     }
   }
 }
