@@ -3,21 +3,29 @@ import 'package:interactions_app/screens/add_category/add_category_screen.dart';
 import '../screens/add_task/add_task_screen.dart';
 
 class NavMgr {
-  void navigate(BuildContext context, Destination dest) {
+  navigate(BuildContext context, Destination dest) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => getDestination(dest)));
+        .push(MaterialPageRoute(builder: (context) => getDestination(dest)))
+        .then((value) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(value.toString())));
+    });
   }
 
-  void navigateBack(BuildContext context) => Navigator.pop(context);
+  void navigateBack(BuildContext context, String str) =>
+      Navigator.pop(context, str);
 
   Widget getDestination(Destination dest) {
     switch (dest) {
       case Destination.addCategory:
-        return AddCategoryScreen();
+        return const AddCategoryScreen();
       case Destination.addTask:
-        return AddTaskScreen();
+        return const AddTaskScreen();
     }
   }
 }
+
+// MARK: - Update getDestination() when a new view is added
 
 enum Destination { addTask, addCategory }

@@ -1,18 +1,52 @@
+import 'dart:math';
+
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:interactions_app/extensions/text_ext.dart';
+import 'package:interactions_app/model/task_category.dart';
 import 'package:interactions_app/reusable_components/header_container.dart';
 import '../../managers/data_mgr.dart';
 import '../../managers/navigation_mgr.dart';
+import '../../model/task.dart';
 import '../../reusable_components/custom_btn.dart';
 import '../../reusable_components/custom_text_field.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  AddTaskScreen({super.key});
-  final dataMgr = GetIt.I.get<DataMgr>();
+class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key});
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  late DataMgr dataMgr = GetIt.I.get<DataMgr>();
+
   final navMgr = GetIt.I.get<NavMgr>();
+
+  final nameController = TextEditingController();
+
+  final descriptionController = TextEditingController();
+
+  TaskCategory? selectedCategory;
+
+  String selectedDate = DateTime.now().toIso8601String();
+
+  // void _navigate(BuildContext context) {
+  //   navMgr.navigate(context, Destination.addCategory).then((_) {
+  //     setState(() {});
+  //   });
+  // }
+
+  void addTask(Task? task) {
+    if (task != null) {
+      dataMgr.addNewTask(task);
+      navMgr.navigateBack(context, task.title);
+    }
+  }
+
+  void setSelectedDate(DateTime date) => selectedDate = date.toIso8601String();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +65,7 @@ class AddTaskScreen extends StatelessWidget {
                 initialSelectedDate: DateTime.now(),
                 selectionColor: Colors.black54,
                 selectedTextColor: Colors.white,
-                onDateChange: (date) => (),
+                onDateChange: (date) => setSelectedDate(date),
               ),
             ),
           ),
@@ -75,7 +109,7 @@ class AddTaskScreen extends StatelessWidget {
                                     value: cat.title,
                                     child: Row(
                                       children: [
-                                        Icon(cat.iconData),
+                                        Icon(cat.icon()),
                                         const SizedBox(width: 8),
                                         Text(cat.title)
                                       ],
@@ -94,7 +128,9 @@ class AddTaskScreen extends StatelessWidget {
                           children: [
                             const Text('Task Name:').styled(size: 12),
                             const SizedBox(width: 8),
-                            const Expanded(child: CustomTextField(hint: 'Name'))
+                            Expanded(
+                                child: CustomTextField(
+                                    controller: nameController, hint: 'Name'))
                           ],
                         ),
                       ),
@@ -105,9 +141,11 @@ class AddTaskScreen extends StatelessWidget {
                           children: [
                             const Text('Description:').styled(size: 12),
                             const SizedBox(width: 8),
-                            const Expanded(
+                            Expanded(
                               child: CustomTextField(
-                                  hint: 'Description', maxLines: 5),
+                                  controller: descriptionController,
+                                  hint: 'Description',
+                                  maxLines: 5),
                             )
                           ],
                         ),
@@ -124,11 +162,18 @@ class AddTaskScreen extends StatelessWidget {
               children: [
                 CustomBtn(
                   title: 'Cancel',
-                  action: () => navMgr.navigateBack(context),
+                  action: () => navMgr.navigateBack(context, 'No Task Added'),
                   color: Colors.red,
                 ),
                 const SizedBox(width: 16),
-                CustomBtn(title: 'Add Task', action: () => ())
+                CustomBtn(
+                    title: 'Add Task',
+                    action: () => addTask(Task(
+                        id: Random().nextInt(500),
+                        title: nameController.text,
+                        isCompleted: false,
+                        timeStamp: selectedDate,
+                        categoryId: selectedCategory?.id ?? 1)))
               ],
             ),
           ),

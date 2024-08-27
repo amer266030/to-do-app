@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:interactions_app/model/task_category.dart';
 import '../model/enum/time_period.dart';
 import '../model/task.dart';
@@ -7,7 +6,9 @@ import '../model/task.dart';
 class DataMgr {
   List<Task> allTasks = [];
   List<TaskCategory> categories = [];
+  final box = GetStorage();
 
+  // MARK:- Task Screen
   bool? selectedStatus;
   int? selectedId;
   TimePeriod? selectedPeriod;
@@ -17,7 +18,8 @@ class DataMgr {
     _fetchData();
   }
 
-  List<Task> get filteredTasks => _filterTasks();
+  // List<Task> get filteredTasks => _filterTasks();
+  List<Task> get filteredTasks => allTasks;
 
   double get taskCompletionPercentage {
     int completed =
@@ -32,80 +34,64 @@ class DataMgr {
   }
 
   void _fetchTasks() {
-    allTasks = [
-      Task(
-          id: 1,
-          title: 'Webinar on Machine Learning',
-          isCompleted: false,
-          timeStamp: DateTime.now().add(const Duration(hours: 2)),
-          categoryId: 1),
-      Task(
-          id: 2,
-          title: 'Buy Coffee',
-          isCompleted: true,
-          timeStamp: DateTime.now().add(const Duration(hours: 5, minutes: 15)),
-          categoryId: 2),
-      Task(
-          id: 3,
-          title: 'Daily UI Change',
-          isCompleted: true,
-          timeStamp: DateTime.now().add(const Duration(hours: 6, minutes: 15)),
-          categoryId: 3),
-      Task(
-          id: 4,
-          title: 'Project with team',
-          isCompleted: false,
-          timeStamp: DateTime.now().add(const Duration(days: 1)),
-          categoryId: 3),
-      Task(
-          id: 5,
-          title: 'Webinar on Database Design',
-          isCompleted: true,
-          timeStamp: DateTime.now().add(const Duration(days: 2)),
-          categoryId: 1),
-    ];
+    List<Map<String, dynamic>> storageTasks = [];
+    if (box.read('tasks') != null) {
+      storageTasks = List.from(box.read('tasks')).cast<Map<String, dynamic>>();
+      for (var task in storageTasks) {
+        allTasks.add(Task.fromJson(task));
+      }
+    }
   }
 
   void _fetchCategories() {
-    categories = [
-      TaskCategory(
-          id: 1,
-          title: 'Work',
-          iconData: CupertinoIcons.doc_on_doc,
-          color: Colors.orange),
-      TaskCategory(
-          id: 2,
-          title: 'Shopping',
-          iconData: CupertinoIcons.cart,
-          color: Colors.blue),
-      TaskCategory(
-          id: 3,
-          title: 'Projects',
-          iconData: CupertinoIcons.bubble_left_bubble_right,
-          color: Colors.deepPurple),
-    ];
+    List<Map<String, dynamic>> storageCategories = [];
+    if ((box.read('categories')) != null) {
+      storageCategories =
+          List.from(box.read('categories')).cast<Map<String, dynamic>>();
+      for (var cat in storageCategories) {
+        categories.add(TaskCategory.fromJson(cat));
+      }
+    }
   }
 
-  List<Task> _filterTasks() {
-    List<Task> temp = allTasks;
-
-    if (selectedPeriod != null) {
-      temp = temp
-          .where((task) => task.timeStamp.isBefore(
-              DateTime.now().add(Duration(days: selectedPeriod!.duration()))))
-          .toList();
+  void addNewTask(Task task) async {
+    allTasks.add(task);
+    List<Map<String, dynamic>> taskAsMap = [];
+    for (var task in allTasks) {
+      taskAsMap.add(task.toJson());
     }
-
-    if (selectedStatus != null) {
-      temp = temp.where((task) => task.isCompleted == selectedStatus).toList();
-    }
-
-    if (selectedId != null) {
-      temp = temp.where((task) => task.categoryId == selectedId).toList();
-    }
-
-    return temp;
+    await box.write('tasks', taskAsMap);
   }
+
+  Future<void> addNewCategory(TaskCategory cat) async {
+    categories.add(cat);
+    List<Map<String, dynamic>> categoriesAsMap = [];
+    for (var cat in categories) {
+      categoriesAsMap.add(cat.toJson());
+    }
+    await box.write('categories', categoriesAsMap);
+  }
+
+  // List<Task> _filterTasks() {
+  //   List<Task> temp = allTasks;
+  //
+  //   if (selectedPeriod != null) {
+  //     temp = temp
+  //         .where((task) => task.timeStamp.isBefore(
+  //             DateTime.now().add(Duration(days: selectedPeriod!.duration()))))
+  //         .toList();
+  //   }
+  //
+  //   if (selectedStatus != null) {
+  //     temp = temp.where((task) => task.isCompleted == selectedStatus).toList();
+  //   }
+  //
+  //   if (selectedId != null) {
+  //     temp = temp.where((task) => task.categoryId == selectedId).toList();
+  //   }
+  //
+  //   return temp;
+  // }
 
   changeTaskCompletionState({required int id}) {
     var task = allTasks.where((task) => task.id == id).firstOrNull;

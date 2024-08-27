@@ -108,13 +108,13 @@ class _TaskItemView extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   children: [
-                    Icon(category.iconData, size: 14, color: category.color),
+                    Icon(category.icon(), size: 14, color: category.color()),
                     const SizedBox(width: 8),
                     Text(task.title).styled(size: 10, weight: FontWeight.w600),
                     const Spacer(),
                     Row(
                       children: [
-                        Text(TimeOfDay.fromDateTime(task.timeStamp).toString())
+                        Text(TimeOfDay.fromDateTime(DateTime.now()).toString())
                             .styled(size: 10),
                         const Icon(CupertinoIcons.chevron_right),
                       ],

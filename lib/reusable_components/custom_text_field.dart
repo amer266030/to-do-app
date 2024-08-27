@@ -3,7 +3,12 @@ import 'package:interactions_app/extensions/text_ext.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
-      {super.key, required this.hint, this.maxLines = 1, this.radius = 12});
+      {super.key,
+      required this.controller,
+      required this.hint,
+      this.maxLines = 1,
+      this.radius = 12});
+  final TextEditingController controller;
   final String hint;
   final int maxLines;
   final double radius;
@@ -11,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       minLines: maxLines,
       maxLines: null,
       textAlignVertical: TextAlignVertical.top,

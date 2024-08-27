@@ -2,7 +2,7 @@ class Task {
   int id;
   String title;
   bool isCompleted;
-  DateTime timeStamp;
+  String timeStamp;
   int categoryId;
 
   Task({
@@ -12,4 +12,19 @@ class Task {
     required this.timeStamp,
     required this.categoryId,
   });
+
+  Task.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int,
+        title = json['title'] as String,
+        isCompleted = json['isCompleted'] as bool,
+        timeStamp = json['timeStamp'] as String,
+        categoryId = json[''] as int;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'bool': isCompleted,
+        'timeStamp': timeStamp,
+        'categoryId': categoryId
+      };
 }
